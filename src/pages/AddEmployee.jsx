@@ -17,7 +17,7 @@ const AddEmployee = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch("https://teal-sleepy-armadillo.cyclic.app/employee")
+    fetch("https://calm-gold-fish-gear.cyclic.app/employees")
       .then((res) => res.json())
       .then((data) => {
         let newEmployeeId;

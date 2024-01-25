@@ -25,9 +25,9 @@ const EmployeeList = () => {
     navigate(`/employee/detail/${id}`);
   };
 
-  const removeEmployee = (id) => {
+ const removeEmployee = (id) => {
   if (window.confirm("Do you want to remove?")) {
-    fetch(`https://calm-gold-fish-gear.cyclic.app/employees/${id}`, {  // เปลี่ยน URL นี้
+    fetch(`https://calm-gold-fish-gear.cyclic.app/employees/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

@@ -36,7 +36,7 @@ const AddEmployee = () => {
           section: "ส่วนอำนวยการ", // เพิ่ม section เป็นส่วนอำนวยการ
         };
 
-        fetch("https://tiny-pear-caiman-hem.cyclic.app/employee", {
+        fetch("https://tiny-pear-caiman-hem.cyclic.app/employeeห", {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify(employeeData),

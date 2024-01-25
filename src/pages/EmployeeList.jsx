@@ -6,7 +6,7 @@ const EmployeeList = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`https://teal-sleepy-armadillo.cyclic.app/`)
+    fetch(`https://teal-sleepy-armadillo.cyclic.app/employee`)
       .then((res) => res.json())
       .then((data) => {
         setEmployeeData(data.employee);

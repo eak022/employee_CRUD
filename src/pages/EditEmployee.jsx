@@ -12,7 +12,7 @@ const EditEmployee = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`https://tiny-pear-caiman-hem.cyclic.app/employee/${id}`)
+    fetch(`https://calm-gold-fish-gear.cyclic.app/employees/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setEmployee(data.employee); // ตั้งค่าข้อมูลพนักงานที่ได้รับมาเป็นค่าเริ่มต้นใน state

@@ -6,7 +6,7 @@ const EmployeeList = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`https://teal-sleepy-armadillo.cyclic.app/`)
+    fetch(`https://calm-gold-fish-gear.cyclic.app/`)
       .then((res) => res.json())
       .then((data) => {
         setEmployeeData(data.employee);
@@ -26,7 +26,7 @@ const EmployeeList = () => {
 
   const removeEmployee = (id) => {
     if (window.confirm("Do you want to remove?")) {
-      fetch(`https://teal-sleepy-armadillo.cyclic.app/employee/${id}`, {
+      fetch(`https://calm-gold-fish-gear.cyclic.app/employee/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

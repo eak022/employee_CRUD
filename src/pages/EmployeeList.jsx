@@ -6,7 +6,7 @@ const EmployeeList = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`https://calm-gold-fish-gear.cyclic.app/`)
+    fetch(`https://calm-gold-fish-gear.cyclic.app`)
       .then((res) => res.json())
       .then((data) => {
         setEmployeeData(data.employee);

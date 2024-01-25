@@ -9,6 +9,7 @@ const EmployeeList = () => {
   fetch(`https://calm-gold-fish-gear.cyclic.app/`)
     .then((res) => res.json())
     .then((data) => {
+      console.log(data); 
       setEmployeeData(data);
     })
     .catch((err) => {

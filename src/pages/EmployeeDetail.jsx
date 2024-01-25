@@ -6,7 +6,7 @@ const EmployeeDetail = () => {
   const [employeeData, setEmployeeData] = useState({});
 
   useEffect(() => {
-    fetch(`https://teal-sleepy-armadillo.cyclic.app/employee/${id}`)
+    fetch(`https://calm-gold-fish-gear.cyclic.app/employees/${id}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);

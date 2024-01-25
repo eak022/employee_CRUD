@@ -5,16 +5,16 @@ const EmployeeList = () => {
   const [employeeData, setEmployeeData] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetch(`https://calm-gold-fish-gear.cyclic.app`)
-      .then((res) => res.json())
-      .then((data) => {
-        setEmployeeData(data.employee);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
+ useEffect(() => {
+  fetch(`https://calm-gold-fish-gear.cyclic.app/employee`)
+    .then((res) => res.json())
+    .then((data) => {
+      setEmployeeData(data);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+}, []);
 
   const loadEdit = (id) => {
     navigate(`/employee/edit/${id}`);

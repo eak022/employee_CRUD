@@ -26,30 +26,30 @@ const EmployeeList = () => {
   };
 
   const removeEmployee = (id) => {
-    if (window.confirm("Do you want to remove?")) {
-      fetch(`https://calm-gold-fish-gear.cyclic.app/employee/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id }),
+  if (window.confirm("Do you want to remove?")) {
+    fetch(`https://calm-gold-fish-gear.cyclic.app/employees/${id}`, {  // เปลี่ยน URL นี้
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
       })
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return res.json();
-        })
-        .then(() => {
-          const updatedEmployees = employeeData.filter((item) => item.id !== id);
-          setEmployeeData(updatedEmployees);
-          alert("Remove successfully");
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-  };
+      .then(() => {
+        const updatedEmployees = employeeData.filter((item) => item.id !== id);
+        setEmployeeData(updatedEmployees);
+        alert("Remove successfully");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+};
 
   return (
     <div className="container">

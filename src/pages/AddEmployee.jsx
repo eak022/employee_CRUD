@@ -17,12 +17,12 @@ const AddEmployee = () => {
     });
 
     const currentTime = new Date().toLocaleTimeString("en-US", {
-      timeZone: "Asia/Bangkok", // Set the timezone to Thailand (GMT+7)
-      hour12: false,
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric",
-    });
+  timeZone: "Asia/Bangkok",
+  hour12: false,
+  hour: "2-digit",
+  minute: "2-digit",
+});
+
 
     const newEmployeeData = {
       name: employee.name,

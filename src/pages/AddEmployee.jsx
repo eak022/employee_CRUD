@@ -8,35 +8,33 @@ const AddEmployee = () => {
   });
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+ const handleSubmit = (e) => {
+  e.preventDefault();
 
-    const currentDate = new Date().toISOString().split("T")[0];
+  const currentDate = new Date().toISOString().split("T")[0];
+  const currentTime = new Date().getTime(); // เปลี่ยนรูปแบบเวลาเป็น timestamp
 
-const thaiTimeOptions = { timeZone: "Asia/Bangkok", hour12: false, hour: "numeric", minute: "numeric", second: "numeric" };
-const currentTime = new Intl.DateTimeFormat("en-US", thaiTimeOptions).format(new Date());
-
-const employeeData = {
-  name: employee.name,
-  date: currentDate,
-  time: currentTime,
-  section: employee.section,
-};
-
-    fetch("https://calm-gold-fish-gear.cyclic.app/employees", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(employeeData),
-    })
-      .then((res) => res.json())
-      .then(() => {
-        alert("Save successfully");
-        navigate("/employee/list");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const employeeData = {
+    name: employee.name,
+    date: currentDate,
+    time: currentTime, // เปลี่ยนเวลาเป็น timestamp
+    section: employee.section,
   };
+
+  fetch("https://calm-gold-fish-gear.cyclic.app/employees", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(employeeData),
+  })
+    .then((res) => res.json())
+    .then(() => {
+      alert("Save successfully");
+      navigate("/employee/list");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
   return (
     <div>

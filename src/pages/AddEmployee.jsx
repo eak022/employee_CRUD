@@ -13,7 +13,8 @@ const AddEmployee = () => {
 
   const currentDate = new Date().toISOString().split("T")[0];
 
-  const thaiTimeOptions = { timeZone: "Asia/Bangkok", hour12: false, hour: "numeric", minute: "numeric", second: "numeric" };
+  // ปรับให้ได้เวลาในเขตเวลาของประเทศไทย (GMT+7)
+  const thaiTimeOptions = { timeZone: "Asia/Bangkok", hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit" };
   const formattedTime = new Intl.DateTimeFormat("th-TH", thaiTimeOptions).format(new Date());
 
   const employeeData = {
@@ -34,7 +35,7 @@ const AddEmployee = () => {
     console.log(responseData);
 
     alert("Save successfully");
-    navigate("/");
+    navigate("/employee/list");
   } catch (error) {
     console.error(error);
   }

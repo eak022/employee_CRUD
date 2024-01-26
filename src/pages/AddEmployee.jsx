@@ -14,46 +14,43 @@ const AddEmployee = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    fetch("https://calm-gold-fish-gear.cyclic.app/employees")
-      .then((res) => res.json())
-      .then((data) => {
-        let newEmployeeId;
-        if (data.employee.length > 0) {
-          const lastEmployeeId = data.employee[data.employee.length - 1].id;
-          newEmployeeId = lastEmployeeId + 1;
-        } else {
-          newEmployeeId = 1;
-        }
+  fetch("https://calm-gold-fish-gear.cyclic.app/employees")
+    .then((res) => res.json())
+    .then((data) => {
+      let newEmployeeId;
+      if (data.employee.length > 0) {
+        const lastEmployeeId = data.employee[data.employee.length - 1].id;
+        newEmployeeId = lastEmployeeId + 1;
+      } else {
+        newEmployeeId = 1;
+      }
 
-        const currentDate = new Date().toISOString().split('T')[0]; // Get current date
-        const employeeData = {
-          id: newEmployeeId,
-          name: employee.name,
-          date: currentDate, // Use the current date
-          time: employee.time,
-          section: employee.section, // Add the section value
-        };
+      const employeeData = {
+        id: newEmployeeId,
+        name: employee.name,
+        section: "ส่วนอำนวยการ", // เพิ่ม section เป็นส่วนอำนวยการ
+      };
 
-        fetch("https://tiny-pear-caiman-hem.cyclic.app/employees", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(employeeData),
-        })
-          .then((res) => res.json())
-          .then(() => {
-            alert("Save successfully");
-            navigate("/employee/list");
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+      fetch("https://tiny-pear-caiman-hem.cyclic.app/employees", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(employeeData),
       })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+        .then((res) => res.json())
+        .then(() => {
+          alert("Save successfully");
+          navigate("/employee/list");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
   return (
     <div>

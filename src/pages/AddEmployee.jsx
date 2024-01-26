@@ -31,7 +31,7 @@ const AddEmployee = () => {
                       <button className="btn btn-success" type="submit">
                         Save
                       </button>
-                      <Link to="/employee/list" className="btn btn-danger">
+                      <Link to="/" className="btn btn-danger">
                         Back
                       </Link>
                     </div>

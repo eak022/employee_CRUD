@@ -10,7 +10,7 @@ const AddEmployee = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("https://your-backend-url/localTime")
+    fetch("https://calm-gold-fish-gear.cyclic.app/localTime")
       .then((res) => res.json())
       .then((data) => {
         setLocalTime(data.localTime);

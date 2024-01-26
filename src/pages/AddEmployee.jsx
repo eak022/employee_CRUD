@@ -8,13 +8,13 @@ const AddEmployee = () => {
   });
   const navigate = useNavigate();
 
- const handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const currentDate = new Date().toISOString().split("T")[0];
 
     const thaiTimeOptions = { timeZone: "Asia/Bangkok", hour12: false, hour: "numeric", minute: "numeric", second: "numeric" };
-    const formattedTime = new Intl.DateTimeFormat("en-US", thaiTimeOptions).format(new Date(employee.time));
+    const formattedTime = new Intl.DateTimeFormat("th-TH", thaiTimeOptions).format(new Date(employee.time));
 
     const employeeData = {
       name: employee.name,

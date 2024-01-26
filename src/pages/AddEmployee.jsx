@@ -16,12 +16,16 @@ const AddEmployee = () => {
       dateStyle: "short",
     });
 
-    const currentTime = new Date().toLocaleTimeString("en-US", {
+    const currentTime = new Date().getTime();
+// เปลี่ยน timestamp ให้เป็นวันที่และเวลา
+const formattedTime = new Date(currentTime).toLocaleTimeString("en-US", {
   timeZone: "Asia/Bangkok",
   hour12: false,
-  hour: "2-digit",
-  minute: "2-digit",
+  hour: "numeric",
+  minute: "numeric",
+  second: "numeric",
 });
+
 
 
     const newEmployeeData = {

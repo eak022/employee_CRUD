@@ -12,19 +12,16 @@ const AddEmployee = () => {
     e.preventDefault();
 
     const currentDate = new Date().toISOString().split("T")[0];
-    const currentTime = new Date().toLocaleTimeString("en-US", {
-      hour12: false,
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric",
-      timeZone: "Asia/Bangkok", // กำหนด timezone เป็น Asia/Bangkok (timezone ของประเทศไทย)
-    });
-    const employeeData = {
-      name: employee.name,
-      date: currentDate,
-      time: currentTime,
-      section: employee.section,
-    };
+
+const thaiTimeOptions = { timeZone: "Asia/Bangkok", hour12: false, hour: "numeric", minute: "numeric", second: "numeric" };
+const currentTime = new Intl.DateTimeFormat("en-US", thaiTimeOptions).format(new Date());
+
+const employeeData = {
+  name: employee.name,
+  date: currentDate,
+  time: currentTime,
+  section: employee.section,
+};
 
     fetch("https://calm-gold-fish-gear.cyclic.app/employees", {
       method: "POST",

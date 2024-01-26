@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 const AddEmployee = () => {
@@ -6,41 +6,13 @@ const AddEmployee = () => {
     name: "",
     section: "ส่วนอำนวยการ", // Default section value
   });
-
-  const [lastEmployeeId, setLastEmployeeId] = useState(0);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // Fetch the last employee ID from the server
-    fetch("https://calm-gold-fish-gear.cyclic.app/employees")
-      .then((res) => res.json())
-      .then((data) => {
-        const lastId = data.employee.length > 0 ? data.employee[data.employee.length - 1].id : 0;
-        setLastEmployeeId(lastId);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []); // Empty dependency array to run the effect only once when the component mounts
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const currentDate = new Date().toISOString().split("T")[0];
-    const currentTime = new Date().toLocaleTimeString("en-US", {
-      hour12: false,
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric",
-    });
-
-    const newEmployeeId = lastEmployeeId + 1;
-
     const employeeData = {
-      id: newEmployeeId,
       name: employee.name,
-      date: currentDate,
-      time: currentTime,
       section: employee.section,
     };
 
@@ -58,6 +30,7 @@ const AddEmployee = () => {
         console.log(err);
       });
   };
+
   return (
     <div>
       <div className="row">
@@ -118,4 +91,3 @@ const AddEmployee = () => {
 };
 
 export default AddEmployee;
-

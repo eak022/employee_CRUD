@@ -3,53 +3,41 @@ import { useNavigate, Link } from "react-router-dom";
 
 const AddEmployee = () => {
   const [employee, setEmployee] = useState({
-    name: "",
-    section: "ส่วนอำนวยการ", // Default section value
-  });
+  name: "",
+  section: "ส่วนอำนวยการ", // Default section value
+});
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+app.post('/employees', (req, res) => {
+  const lastEmployeeId = employeeData.employee.length > 0 ? employeeData.employee[employeeData.employee.length - 1].id : 0;
+  const newEmployeeId = lastEmployeeId + 1;
 
-    const currentDate = new Date().toLocaleString("en-US", {
-      timeZone: "Asia/Bangkok", // Set the timezone to Thailand (GMT+7)
-      dateStyle: "short",
-    });
+  const newEmployee = req.body;
+  newEmployee.id = newEmployeeId;
 
-    const currentTime = new Date().getTime();
-// เปลี่ยน timestamp ให้เป็นวันที่และเวลา
-const formattedTime = new Date(currentTime).toLocaleTimeString("en-US", {
-  timeZone: "Asia/Bangkok",
-  hour12: false,
-  hour: "numeric",
-  minute: "numeric",
-  second: "numeric",
+  const currentDate = new Date().toISOString(); // Add the current date with timezone
+  const formattedTime = new Date().toLocaleTimeString("en-US", {
+    timeZone: "Asia/Bangkok",
+    hour12: false,
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  });
+
+  newEmployee.date = currentDate;
+  newEmployee.time = formattedTime;
+
+  // Set the section to "ส่วนอำนวยการ" if not provided
+  newEmployee.section = newEmployee.section || "ส่วนอำนวยการ";
+
+  employeeData.employee.push(newEmployee);
+
+  // ... (save data to the employee.json file or database)
+
+  res.json(newEmployee); // Send the data of the newly added employee
 });
-
-
-
-    const newEmployeeData = {
-      name: employee.name,
-      date: currentDate,
-      time: currentTime,
-      section: employee.section,
-    };
-
-    // Send a POST request to the server to add a new employee
-    fetch("https://calm-gold-fish-gear.cyclic.app/employees", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(newEmployeeData),
-    })
-      .then((res) => res.json())
-      .then(() => {
-        alert("Save successfully");
-        navigate("/employee/list");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   return (
     <div>
@@ -87,6 +75,7 @@ const formattedTime = new Date(currentTime).toLocaleTimeString("en-US", {
                         value={employee.section}
                         onChange={(e) => setEmployee({ ...employee, section: e.target.value })}
                         className="form-control"
+                        disabled // ทำให้ Input เป็น disabled
                       />
                     </div>
                   </div>

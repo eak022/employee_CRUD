@@ -1,43 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 const AddEmployee = () => {
   const [employee, setEmployee] = useState({
-  name: "",
-  section: "ส่วนอำนวยการ", // Default section value
-});
+    name: "",
+    section: "ส่วนอำนวยการ", // Default section value
+  });
+  const [localTime, setLocalTime] = useState(""); // State to hold the local time
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch("https://your-backend-url/localTime")
+      .then((res) => res.json())
+      .then((data) => {
+        setLocalTime(data.localTime);
+      })
+      .catch((error) => {
+        console.error("Error fetching local time:", error);
+      });
+  }, []); // Empty dependency array to ensure the effect runs only once
 
   const handleSubmit = (e) => {
     e.preventDefault();
-app.post('/employees', (req, res) => {
-  const lastEmployeeId = employeeData.employee.length > 0 ? employeeData.employee[employeeData.employee.length - 1].id : 0;
-  const newEmployeeId = lastEmployeeId + 1;
-
-  const newEmployee = req.body;
-  newEmployee.id = newEmployeeId;
-
-  const currentDate = new Date().toISOString(); // Add the current date with timezone
-  const formattedTime = new Date().toLocaleTimeString("en-US", {
-    timeZone: "Asia/Bangkok",
-    hour12: false,
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-  });
-
-  newEmployee.date = currentDate;
-  newEmployee.time = formattedTime;
-
-  // Set the section to "ส่วนอำนวยการ" if not provided
-  newEmployee.section = newEmployee.section || "ส่วนอำนวยการ";
-
-  employeeData.employee.push(newEmployee);
-
-  // ... (save data to the employee.json file or database)
-
-  res.json(newEmployee); // Send the data of the newly added employee
-});
+    // Rest of your code for handling employee submission
+  };
 
   return (
     <div>
@@ -51,31 +37,18 @@ app.post('/employees', (req, res) => {
               <div className="card-body">
                 <div className="row">
                   <div className="col-lg-12">
-                    <div className="form-group">
-                      <label htmlFor="name">Name</label>
-                      <input
-                        type="text"
-                        required
-                        name="name"
-                        id="name"
-                        value={employee.name}
-                        onChange={(e) => setEmployee({ ...employee, name: e.target.value })}
-                        className="form-control"
-                      />
-                    </div>
+                    {/* ... (rest of your form) */}
                   </div>
                   <div className="col-lg-12">
                     <div className="form-group">
-                      <label htmlFor="section">Section</label>
+                      <label htmlFor="localTime">Local Time</label>
                       <input
                         type="text"
-                        required
-                        name="section"
-                        id="section"
-                        value={employee.section}
-                        onChange={(e) => setEmployee({ ...employee, section: e.target.value })}
+                        name="localTime"
+                        id="localTime"
+                        value={localTime}
                         className="form-control"
-                        disabled // ทำให้ Input เป็น disabled
+                        readOnly // Make it read-only to prevent user input
                       />
                     </div>
                   </div>

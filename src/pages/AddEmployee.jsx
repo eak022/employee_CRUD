@@ -17,8 +17,8 @@ const AddEmployee = () => {
       hour: "numeric",
       minute: "numeric",
       second: "numeric",
+      timeZone: "Asia/Bangkok", // กำหนด timezone เป็น Asia/Bangkok (timezone ของประเทศไทย)
     });
-
     const employeeData = {
       name: employee.name,
       date: currentDate,

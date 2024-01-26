@@ -8,20 +8,37 @@ const AddEmployee = () => {
   });
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const currentDate = new Date().toISOString().split("T")[0];
+  const currentDate = new Date().toISOString().split("T")[0];
 
-    const thaiTimeOptions = { timeZone: "Asia/Bangkok", hour12: false, hour: "numeric", minute: "numeric", second: "numeric" };
-    const formattedTime = new Intl.DateTimeFormat("th-TH", thaiTimeOptions).format(new Date(employee.time));
+  const thaiTimeOptions = { timeZone: "Asia/Bangkok", hour12: false, hour: "numeric", minute: "numeric", second: "numeric" };
+  const formattedTime = new Intl.DateTimeFormat("th-TH", thaiTimeOptions).format(new Date());
 
-    const employeeData = {
-      name: employee.name,
-      date: currentDate,
-      time: formattedTime, // เปลี่ยนรูปแบบเวลาเป็น string ที่ถูกต้องตาม timezone
-      section: employee.section,
-    };
+  const employeeData = {
+    name: employee.name,
+    date: currentDate,
+    time: formattedTime,
+    section: employee.section,
+  };
+
+  try {
+    const response = await fetch("https://calm-gold-fish-gear.cyclic.app/employees", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(employeeData),
+    });
+
+    const responseData = await response.json();
+    console.log(responseData); // ตรวจสอบข้อมูลที่ได้จากเซิร์ฟเวอร์
+
+    alert("Save successfully");
+    navigate("/employee/list");
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   return (
     <div>

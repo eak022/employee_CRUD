@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 const AddEmployee = () => {
@@ -6,44 +6,39 @@ const AddEmployee = () => {
     name: "",
     section: "ส่วนอำนวยการ", // Default section value
   });
-  const [localTime, setLocalTime] = useState(""); // State to hold the local time
   const navigate = useNavigate();
-
-  useEffect(() => {
-    fetch("https://calm-gold-fish-gear.cyclic.app/localTime")
-      .then((res) => res.json())
-      .then((data) => {
-        setLocalTime(data.localTime);
-      })
-      .catch((error) => {
-        console.error("Error fetching local time:", error);
-      });
-  }, []); // Empty dependency array to ensure the effect runs only once
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Use localTime when submitting the form
-    const currentDate = new Date().toISOString();
-    const formattedTime = localTime; // Use the local time fetched from the backend
+    const currentDate = new Date().toISOString().split("T")[0];
+    const currentTime = new Date().toLocaleTimeString("en-US", {
+      hour12: false,
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    });
 
-    const newEmployee = {
-      ...employee,
-      id: 0, // You may want to adjust this based on your backend logic
+    const employeeData = {
+      name: employee.name,
       date: currentDate,
-      time: formattedTime,
+      time: currentTime,
+      section: employee.section,
     };
 
-    // The rest of your code for submitting the form
-
-    // For testing purposes, log the newEmployee data
-    console.log(newEmployee);
-
-    // Clear the form or navigate to another page as needed
-    setEmployee({
-      name: "",
-      section: "ส่วนอำนวยการ",
-    });
+    fetch("https://calm-gold-fish-gear.cyclic.app/employees", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(employeeData),
+    })
+      .then((res) => res.json())
+      .then(() => {
+        alert("Save successfully");
+        navigate("/employee/list");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -82,20 +77,6 @@ const AddEmployee = () => {
                         value={employee.section}
                         onChange={(e) => setEmployee({ ...employee, section: e.target.value })}
                         className="form-control"
-                        disabled
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-12">
-                    <div className="form-group">
-                      <label htmlFor="localTime">Local Time</label>
-                      <input
-                        type="text"
-                        name="localTime"
-                        id="localTime"
-                        value={localTime}
-                        className="form-control"
-                        readOnly
                       />
                     </div>
                   </div>
@@ -120,3 +101,4 @@ const AddEmployee = () => {
 };
 
 export default AddEmployee;
+

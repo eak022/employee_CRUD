@@ -1,54 +1,34 @@
-const [localTime, setLocalTime] = useState("");
-
-useEffect(() => {
-  fetch("https://your-backend-url/localTime")
-    .then((res) => res.json())
-    .then((data) => {
-      setLocalTime(data.localTime);
-    })
-    .catch((error) => {
-      console.error("Error fetching local time:", error);
-    });
-}, []);   ใส่ตรงไหน                                                                                                                                                                         import React, { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 const AddEmployee = () => {
   const [employee, setEmployee] = useState({
-  name: "",
-  section: "ส่วนอำนวยการ", // Default section value
-});
+    name: "",
+    section: "ส่วนอำนวยการ", // Default section value
+  });
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-app.post('/employees', (req, res) => {
-  const lastEmployeeId = employeeData.employee.length > 0 ? employeeData.employee[employeeData.employee.length - 1].id : 0;
-  const newEmployeeId = lastEmployeeId + 1;
 
-  const newEmployee = req.body;
-  newEmployee.id = newEmployeeId;
+    const response = await fetch("https://your-backend-url/employees", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...employee,
+        section: employee.section || "ส่วนอำนวยการ",
+      }),
+    });
 
-  const currentDate = new Date().toISOString(); // Add the current date with timezone
-  const formattedTime = new Date().toLocaleTimeString("en-US", {
-    timeZone: "Asia/Bangkok",
-    hour12: false,
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-  });
-
-  newEmployee.date = currentDate;
-  newEmployee.time = formattedTime;
-
-  // Set the section to "ส่วนอำนวยการ" if not provided
-  newEmployee.section = newEmployee.section || "ส่วนอำนวยการ";
-
-  employeeData.employee.push(newEmployee);
-
-  // ... (save data to the employee.json file or database)
-
-  res.json(newEmployee); // Send the data of the newly added employee
-});
+    if (response.ok) {
+      // Successfully added employee, redirect to the list page or do something else
+      navigate("/employee/list");
+    } else {
+      console.error("Error adding employee:", response.statusText);
+    }
+  };
 
   return (
     <div>
@@ -70,7 +50,9 @@ app.post('/employees', (req, res) => {
                         name="name"
                         id="name"
                         value={employee.name}
-                        onChange={(e) => setEmployee({ ...employee, name: e.target.value })}
+                        onChange={(e) =>
+                          setEmployee({ ...employee, name: e.target.value })
+                        }
                         className="form-control"
                       />
                     </div>
@@ -84,12 +66,15 @@ app.post('/employees', (req, res) => {
                         name="section"
                         id="section"
                         value={employee.section}
-                        onChange={(e) => setEmployee({ ...employee, section: e.target.value })}
+                        onChange={(e) =>
+                          setEmployee({ ...employee, section: e.target.value })
+                        }
                         className="form-control"
-                        disabled // ทำให้ Input เป็น disabled
+                        disabled // Make it disabled to prevent user input
                       />
                     </div>
                   </div>
+                  {/* You don't need to include the local time input here */}
                   <div className="col-lg-12">
                     <div className="form-group">
                       <button className="btn btn-success" type="submit">
@@ -109,3 +94,5 @@ app.post('/employees', (req, res) => {
     </div>
   );
 };
+
+export default AddEmployee;

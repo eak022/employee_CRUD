@@ -4,9 +4,8 @@ import { useNavigate, Link } from "react-router-dom";
 const AddEmployee = () => {
   const [employee, setEmployee] = useState({
     name: "",
-    date: "",
     time: "",
-    id: 0,
+    section: "ส่วนอำนวยการ", // Add the default section value
   });
   const navigate = useNavigate();
 
@@ -28,15 +27,16 @@ const AddEmployee = () => {
           newEmployeeId = 1;
         }
 
+        const currentDate = new Date().toISOString().split('T')[0]; // Get current date
         const employeeData = {
-          id: newEmployeeId, // ใช้ไอดีใหม่ที่ได้จากการคำนวณ
+          id: newEmployeeId,
           name: employee.name,
-          date: employee.date,
+          date: currentDate, // Use the current date
           time: employee.time,
-          section: "ส่วนอำนวยการ", // เพิ่ม section เป็นส่วนอำนวยการ
+          section: employee.section, // Add the section value
         };
 
-        fetch("https://tiny-pear-caiman-hem.cyclic.app/employeeห", {
+        fetch("https://tiny-pear-caiman-hem.cyclic.app/employees", {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify(employeeData),

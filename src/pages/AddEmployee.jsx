@@ -31,7 +31,7 @@ const AddEmployee = () => {
     });
 
     const responseData = await response.json();
-    console.log(responseData); // ตรวจสอบข้อมูลที่ได้จากเซิร์ฟเวอร์
+    console.log(responseData);
 
     alert("Save successfully");
     navigate("/");

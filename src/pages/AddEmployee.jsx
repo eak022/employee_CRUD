@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 const AddEmployee = () => {
@@ -6,28 +6,44 @@ const AddEmployee = () => {
     name: "",
     section: "ส่วนอำนวยการ", // Default section value
   });
+  const [localTime, setLocalTime] = useState(""); // State to hold the local time
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  useEffect(() => {
+    fetch("https://your-backend-url/localTime")
+      .then((res) => res.json())
+      .then((data) => {
+        setLocalTime(data.localTime);
+      })
+      .catch((error) => {
+        console.error("Error fetching local time:", error);
+      });
+  }, []); // Empty dependency array to ensure the effect runs only once
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    const response = await fetch("https://your-backend-url/employees", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...employee,
-        section: employee.section || "ส่วนอำนวยการ",
-      }),
-    });
+    // Use localTime when submitting the form
+    const currentDate = new Date().toISOString();
+    const formattedTime = localTime; // Use the local time fetched from the backend
 
-    if (response.ok) {
-      // Successfully added employee, redirect to the list page or do something else
-      navigate("/employee/list");
-    } else {
-      console.error("Error adding employee:", response.statusText);
-    }
+    const newEmployee = {
+      ...employee,
+      id: 0, // You may want to adjust this based on your backend logic
+      date: currentDate,
+      time: formattedTime,
+    };
+
+    // The rest of your code for submitting the form
+
+    // For testing purposes, log the newEmployee data
+    console.log(newEmployee);
+
+    // Clear the form or navigate to another page as needed
+    setEmployee({
+      name: "",
+      section: "ส่วนอำนวยการ",
+    });
   };
 
   return (
@@ -50,9 +66,7 @@ const AddEmployee = () => {
                         name="name"
                         id="name"
                         value={employee.name}
-                        onChange={(e) =>
-                          setEmployee({ ...employee, name: e.target.value })
-                        }
+                        onChange={(e) => setEmployee({ ...employee, name: e.target.value })}
                         className="form-control"
                       />
                     </div>
@@ -66,15 +80,25 @@ const AddEmployee = () => {
                         name="section"
                         id="section"
                         value={employee.section}
-                        onChange={(e) =>
-                          setEmployee({ ...employee, section: e.target.value })
-                        }
+                        onChange={(e) => setEmployee({ ...employee, section: e.target.value })}
                         className="form-control"
-                        disabled // Make it disabled to prevent user input
+                        disabled
                       />
                     </div>
                   </div>
-                  {/* You don't need to include the local time input here */}
+                  <div className="col-lg-12">
+                    <div className="form-group">
+                      <label htmlFor="localTime">Local Time</label>
+                      <input
+                        type="text"
+                        name="localTime"
+                        id="localTime"
+                        value={localTime}
+                        className="form-control"
+                        readOnly
+                      />
+                    </div>
+                  </div>
                   <div className="col-lg-12">
                     <div className="form-group">
                       <button className="btn btn-success" type="submit">

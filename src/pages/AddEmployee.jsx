@@ -4,7 +4,9 @@ import { useNavigate, Link } from "react-router-dom";
 const AddEmployee = () => {
   const [employee, setEmployee] = useState({
     name: "",
-    section: "ส่วนอำนวยการ", // Add the default section value
+    date: "",
+    time: "",
+    section: "ส่วนอำนวยการ", // Default section value
   });
   const navigate = useNavigate();
 
@@ -13,43 +15,29 @@ const AddEmployee = () => {
   };
 
   const handleSubmit = (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  fetch("https://calm-gold-fish-gear.cyclic.app/employees")
-    .then((res) => res.json())
-    .then((data) => {
-      let newEmployeeId;
-      if (data.employee.length > 0) {
-        const lastEmployeeId = data.employee[data.employee.length - 1].id;
-        newEmployeeId = lastEmployeeId + 1;
-      } else {
-        newEmployeeId = 1;
-      }
+    const employeeData = {
+      name: employee.name,
+      date: employee.date,
+      time: employee.time,
+      section: employee.section, // Include section in the request body
+    };
 
-      const employeeData = {
-        id: newEmployeeId,
-        name: employee.name,
-        section: "ส่วนอำนวยการ", // เพิ่ม section เป็นส่วนอำนวยการ
-      };
-
-      fetch("https://tiny-pear-caiman-hem.cyclic.app/employees", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(employeeData),
-      })
-        .then((res) => res.json())
-        .then(() => {
-          alert("Save successfully");
-          navigate("/employee/list");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    fetch("https://calm-gold-fish-gear.cyclic.app/employees", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(employeeData),
     })
-    .catch((err) => {
-      console.log(err);
-    });
-};
+      .then((res) => res.json())
+      .then(() => {
+        alert("Save successfully");
+        navigate("/employee/list");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div>
@@ -99,6 +87,20 @@ const AddEmployee = () => {
                         name="time"
                         id="time"
                         value={employee.time}
+                        onChange={handleChange}
+                        className="form-control"
+                      />
+                    </div>
+                  </div>
+                  <div className="col-lg-12">
+                    <div className="form-group">
+                      <label htmlFor="section">Section</label>
+                      <input
+                        type="text"
+                        required
+                        name="section"
+                        id="section"
+                        value={employee.section}
                         onChange={handleChange}
                         className="form-control"
                       />

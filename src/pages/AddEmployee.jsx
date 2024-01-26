@@ -34,7 +34,7 @@ const AddEmployee = () => {
     console.log(responseData); // ตรวจสอบข้อมูลที่ได้จากเซิร์ฟเวอร์
 
     alert("Save successfully");
-    navigate("/employee/list");
+    navigate("/");
   } catch (error) {
     console.error(error);
   }

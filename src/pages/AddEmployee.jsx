@@ -4,7 +4,6 @@ import { useNavigate, Link } from "react-router-dom";
 const AddEmployee = () => {
   const [employee, setEmployee] = useState({
     name: "",
-    time: "",
     section: "ส่วนอำนวยการ", // Add the default section value
   });
   const navigate = useNavigate();

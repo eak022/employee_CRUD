@@ -1,42 +1,54 @@
-import React, { useState } from "react";
+const [localTime, setLocalTime] = useState("");
+
+useEffect(() => {
+  fetch("https://your-backend-url/localTime")
+    .then((res) => res.json())
+    .then((data) => {
+      setLocalTime(data.localTime);
+    })
+    .catch((error) => {
+      console.error("Error fetching local time:", error);
+    });
+}, []);   ใส่ตรงไหน                                                                                                                                                                         import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 const AddEmployee = () => {
   const [employee, setEmployee] = useState({
-    name: "",
-    section: "ส่วนอำนวยการ", // Default section value
-  });
+  name: "",
+  section: "ส่วนอำนวยการ", // Default section value
+});
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+app.post('/employees', (req, res) => {
+  const lastEmployeeId = employeeData.employee.length > 0 ? employeeData.employee[employeeData.employee.length - 1].id : 0;
+  const newEmployeeId = lastEmployeeId + 1;
 
-    const lastEmployeeId = employeeData.employee.length > 0 ? employeeData.employee[employeeData.employee.length - 1].id : 0;
-    const newEmployeeId = lastEmployeeId + 1;
+  const newEmployee = req.body;
+  newEmployee.id = newEmployeeId;
 
-    const newEmployee = {
-      id: newEmployeeId,
-      name: employee.name,
-      section: employee.section,
-      date: new Date().toISOString().split('T')[0], // Add the current date
-      time: new Date().toLocaleTimeString("en-US", {
-        hour12: false,
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-      }), // Add the current time
-    };
+  const currentDate = new Date().toISOString(); // Add the current date with timezone
+  const formattedTime = new Date().toLocaleTimeString("en-US", {
+    timeZone: "Asia/Bangkok",
+    hour12: false,
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  });
 
-    // Set the section to "ส่วนอำนวยการ" if not provided
-    newEmployee.section = newEmployee.section || "ส่วนอำนวยการ";
+  newEmployee.date = currentDate;
+  newEmployee.time = formattedTime;
 
-    employeeData.employee.push(newEmployee);
+  // Set the section to "ส่วนอำนวยการ" if not provided
+  newEmployee.section = newEmployee.section || "ส่วนอำนวยการ";
 
-    // ... (save data to the employee.json file or database)
+  employeeData.employee.push(newEmployee);
 
-    // Redirect to the employee list page after submission
-    navigate("/employee/list");
-  };
+  // ... (save data to the employee.json file or database)
+
+  res.json(newEmployee); // Send the data of the newly added employee
+});
 
   return (
     <div>
@@ -74,7 +86,7 @@ const AddEmployee = () => {
                         value={employee.section}
                         onChange={(e) => setEmployee({ ...employee, section: e.target.value })}
                         className="form-control"
-                        disabled // Make it disabled
+                        disabled // ทำให้ Input เป็น disabled
                       />
                     </div>
                   </div>
@@ -97,5 +109,3 @@ const AddEmployee = () => {
     </div>
   );
 };
-
-export default AddEmployee;

@@ -1,46 +1,29 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
-const AddEmployee = () => {
-  const [employee, setEmployee] = useState({
-    name: "",
-    section: "ส่วนอำนวยการ", // Default section value
-  });
-  const navigate = useNavigate();
+app.post('/employees', (req, res) => {
+  const lastEmployeeId = employeeData.employee.length > 0 ? employeeData.employee[employeeData.employee.length - 1].id : 0;
+  const newEmployeeId = lastEmployeeId + 1;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const newEmployee = req.body;
+  newEmployee.id = newEmployeeId;
+  newEmployee.date = new Date().toISOString().split('T')[0]; // Add the current date
+  newEmployee.time = new Date().toLocaleTimeString("en-US", {
+    hour12: false,
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  }); // Add the current time
 
-    const currentDate = new Date().toISOString().split("T")[0];
+  // Set the section to "ส่วนอำนวยการ" if not provided
+  newEmployee.section = newEmployee.section || "ส่วนอำนวยการ";
 
-    // ปรับให้ได้เวลาในเขตเวลาของประเทศไทย (GMT+7)
-    const thaiTimeOptions = { timeZone: "Asia/Bangkok", hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit" };
-    const formattedTime = new Intl.DateTimeFormat("th-TH", thaiTimeOptions).format(new Date());
+  employeeData.employee.push(newEmployee);
 
-    const employeeData = {
-      name: employee.name,
-      date: currentDate,
-      time: formattedTime,
-      section: employee.section,
-    };
+  // ... (save data to the employee.json file or database)
 
-    try {
-      const response = await fetch("https://calm-gold-fish-gear.cyclic.app/employees", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(employeeData),
-      });
-
-      const responseData = await response.json();
-      console.log(responseData);
-
-      alert("Save successfully");
-      navigate("/"); // หรือ navigate("/employee/list") ตามที่คุณต้องการ
-
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  res.json(newEmployee); // Send the data of the newly added employee
+});
 
   return (
     <div>

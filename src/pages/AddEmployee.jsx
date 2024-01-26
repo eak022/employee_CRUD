@@ -4,24 +4,26 @@ import { useNavigate, Link } from "react-router-dom";
 const AddEmployee = () => {
   const [employee, setEmployee] = useState({
     name: "",
-    date: "",
-    time: "",
     section: "ส่วนอำนวยการ", // Default section value
   });
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setEmployee({ ...employee, [e.target.name]: e.target.value });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const currentDate = new Date().toISOString().split("T")[0];
+    const currentTime = new Date().toLocaleTimeString("en-US", {
+      hour12: false,
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    });
+
     const employeeData = {
       name: employee.name,
-      date: employee.date,
-      time: employee.time,
-      section: employee.section, // Include section in the request body
+      date: currentDate,
+      time: currentTime,
+      section: employee.section,
     };
 
     fetch("https://calm-gold-fish-gear.cyclic.app/employees", {
@@ -59,35 +61,7 @@ const AddEmployee = () => {
                         name="name"
                         id="name"
                         value={employee.name}
-                        onChange={handleChange}
-                        className="form-control"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-12">
-                    <div className="form-group">
-                      <label htmlFor="date">Date</label>
-                      <input
-                        type="text"
-                        required
-                        name="date"
-                        id="date"
-                        value={employee.date}
-                        onChange={handleChange}
-                        className="form-control"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-12">
-                    <div className="form-group">
-                      <label htmlFor="time">Time</label>
-                      <input
-                        type="text"
-                        required
-                        name="time"
-                        id="time"
-                        value={employee.time}
-                        onChange={handleChange}
+                        onChange={(e) => setEmployee({ ...employee, name: e.target.value })}
                         className="form-control"
                       />
                     </div>
@@ -101,7 +75,7 @@ const AddEmployee = () => {
                         name="section"
                         id="section"
                         value={employee.section}
-                        onChange={handleChange}
+                        onChange={(e) => setEmployee({ ...employee, section: e.target.value })}
                         className="form-control"
                       />
                     </div>
@@ -127,3 +101,4 @@ const AddEmployee = () => {
 };
 
 export default AddEmployee;
+

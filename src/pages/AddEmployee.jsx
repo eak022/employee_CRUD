@@ -6,25 +6,31 @@ app.post('/employees', (req, res) => {
   const newEmployeeId = lastEmployeeId + 1;
 
   const newEmployee = req.body;
-  newEmployee.id = newEmployeeId;
-  newEmployee.date = new Date().toISOString().split('T')[0]; // Add the current date
-  newEmployee.time = new Date().toLocaleTimeString("en-US", {
+  const handleSubmit = (e) => {
+  e.preventDefault();
+
+  const currentDate = new Date().toLocaleString("en-US", {
+    timeZone: "Asia/Bangkok", // Set the timezone to Thailand (GMT+7)
+    dateStyle: "short",
+  });
+
+  const currentTime = new Date().toLocaleTimeString("en-US", {
+    timeZone: "Asia/Bangkok", // Set the timezone to Thailand (GMT+7)
     hour12: false,
     hour: "numeric",
     minute: "numeric",
     second: "numeric",
-  }); // Add the current time
+  });
 
-  // Set the section to "ส่วนอำนวยการ" if not provided
-  newEmployee.section = newEmployee.section || "ส่วนอำนวยการ";
+  const employeeData = {
+    name: employee.name,
+    date: currentDate,
+    time: currentTime,
+    section: employee.section,
+  };
 
-  employeeData.employee.push(newEmployee);
-
-  // ... (save data to the employee.json file or database)
-
-  res.json(newEmployee); // Send the data of the newly added employee
-});
-
+  // ... rest of the code remains the same
+};
   return (
     <div>
       {/* ... (previous JSX code) */}

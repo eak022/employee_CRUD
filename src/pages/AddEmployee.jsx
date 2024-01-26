@@ -43,43 +43,7 @@ const AddEmployee = () => {
 
   return (
     <div>
-      <div className="row">
-        <div className="offset-lg-3 col-lg-6">
-          <form className="container" onSubmit={handleSubmit}>
-            <div className="card">
-              <div className="card-title">
-                <h2>Add new Employee</h2>
-              </div>
-              <div className="card-body">
-                <div className="row">
-                  <div className="col-lg-12">
-                    <div className="form-group">
-                      <label htmlFor="name">Name</label>
-                      <input
-                        type="text"
-                        required
-                        name="name"
-                        id="name"
-                        value={employee.name}
-                        onChange={(e) => setEmployee({ ...employee, name: e.target.value })}
-                        className="form-control"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-12">
-                    <div className="form-group">
-                      <label htmlFor="section">Section</label>
-                      <input
-                        type="text"
-                        required
-                        name="section"
-                        id="section"
-                        value={employee.section}
-                        onChange={(e) => setEmployee({ ...employee, section: e.target.value })}
-                        className="form-control"
-                      />
-                    </div>
-                  </div>
+      {/* ... (previous JSX code) */}
                   <div className="col-lg-12">
                     <div className="form-group">
                       <button className="btn btn-success" type="submit">
